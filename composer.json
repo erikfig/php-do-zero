@@ -1,0 +1,17 @@
+{
+    "name": "erikfig/php-do-zero",
+    "authors": [
+        {
+            "name": "Erik Figueiredo",
+            "email": "erik.figueiredo@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ErikFig\\Framework\\": "src"
+        }
+    },
+    "require": {
+        "phpunit/phpunit": "^8.3"
+    }
+}
