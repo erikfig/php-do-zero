@@ -1,0 +1,16 @@
+{
+    "name": "erikfig/module-users",
+    "description": "",
+    "authors": [
+        {
+            "name": "Erik Figueiredo",
+            "email": "erik.figueiredo@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "ErikFig\\Framework\\Users\\": "src"
+        }
+    },
+    "require": {}
+}

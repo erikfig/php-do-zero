@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models;
+namespace ErikFig\Framework\Users\Models;
 
 use Illuminate\Database\Eloquent\Model;
 

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f968c97e118a2bc40bee3a5c558536e2",
+    "content-hash": "554947be0ddb5de129283d87c3258955",
     "packages": [
         {
             "name": "doctrine/inflector",
@@ -128,6 +128,28 @@
                 "instantiate"
             ],
             "time": "2019-03-17T17:37:11+00:00"
+        },
+        {
+            "name": "erikfig/module-users",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./modules/users",
+                "reference": "63ce9bd7eea609092e0f3316d4bbc83c95e65bd4",
+                "shasum": null
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ErikFig\\Framework\\Users\\": "src"
+                }
+            },
+            "authors": [
+                {
+                    "name": "Erik Figueiredo",
+                    "email": "erik.figueiredo@gmail.com"
+                }
+            ]
         },
         {
             "name": "illuminate/container",
@@ -2227,9 +2249,11 @@
     ],
     "packages-dev": [],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": [],
-    "prefer-stable": false,
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "erikfig/module-users": 20
+    },
+    "prefer-stable": true,
     "prefer-lowest": false,
     "platform": [],
     "platform-dev": []
