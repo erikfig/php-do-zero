@@ -1,6 +1,7 @@
 <?php
 
 require __DIR__ . '/vendor/autoload.php';
+require __DIR__ . '/database.php';
 
 // defino o método http e a url amigável
 $method = $_SERVER['REQUEST_METHOD'];
@@ -14,9 +15,8 @@ $router->get('/', function () {
     return 'Olá mundo';
 });
 
-$router->get('/ola-{nome}', function ($params) {
-    return 'Olá ' . $params[1];
-});
+$router->get('/ola-{nome}', 'App\Controllers\HomeController::hello');
+$router->get('/users', 'App\Controllers\HomeController::listUsers');
 
 // faço o router encontrar a rota que o usuário acessou
 $result = $router->handler();
@@ -28,5 +28,24 @@ if (!$result) {
     die();
 }
 
-// imprimo a página atual
-echo $result($router->getParams());
+$twig = require(__DIR__ . '/renderer.php');
+
+// verifico se é uma função anônima
+if ($result instanceof Closure) {
+    // imprimo a página atual
+    echo $result($router->getParams());
+
+// se não for uma função anônima e for uma string
+} elseif (is_string($result)) {
+    // eu quebro a string nos dois-pontos, dois::pontos
+    // transformando em array
+    $result = explode('::', $result);
+
+    // instancio o controller
+    $controller = new $result[0]($twig);
+    // guardo o método a ser executado (em um controller ele se chama action)
+    $action = $result[1];
+
+    // finalmente executo o método da classe
+    echo $controller->$action($router->getParams());
+}

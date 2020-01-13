@@ -8,10 +8,13 @@
     ],
     "autoload": {
         "psr-4": {
+            "App\\": "app",
             "ErikFig\\Framework\\": "src"
         }
     },
     "require": {
-        "phpunit/phpunit": "^8.3"
+        "phpunit/phpunit": "^8.3",
+        "illuminate/database": "^6.10",
+        "twig/twig": "^3.0"
     }
 }

@@ -15,17 +15,17 @@ class Router
         $this->path = $path;
     }
 
-    public function get(string $route, callable $action)
+    public function get(string $route, $action)
     {
         $this->add('GET', $route, $action);
     }
 
-    public function post(string $route, callable $action)
+    public function post(string $route, $action)
     {
         $this->add('POST', $route, $action);
     }
 
-    public function add(string $method, string $route, callable $action)
+    public function add(string $method, string $route, $action)
     {
         $this->routes[$method][$route] = $action;
     }
