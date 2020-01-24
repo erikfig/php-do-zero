@@ -17,17 +17,18 @@ class Router
 
     public function get(string $route, $action)
     {
-        $this->add('GET', $route, $action);
+        return $this->add('GET', $route, $action); // adicionei o return
     }
 
     public function post(string $route, $action)
     {
-        $this->add('POST', $route, $action);
+        return $this->add('POST', $route, $action); // adicionei o return
     }
 
     public function add(string $method, string $route, $action)
     {
-        $this->routes[$method][$route] = $action;
+        $this->routes[$method][$route] = new RouteEntity($action); // usei nossa nova classe
+        return $this->routes[$method][$route]; // adicionei o return
     }
 
     public function getParams()

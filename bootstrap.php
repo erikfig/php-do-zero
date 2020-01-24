@@ -4,14 +4,11 @@ require __DIR__ . '/vendor/autoload.php';
 require __DIR__ . '/database.php';
 $twig = require(__DIR__ . '/renderer.php');
 
-// defino o método http e a url amigável
 $method = $_SERVER['REQUEST_METHOD'];
 $path = $_SERVER['PATH_INFO'] ?? '/';
 
-// instancio o Router
 $router = new ErikFig\Framework\Router($method, $path);
 
-// registro as rotas
 $router->get('/', function () {
     return 'Olá mundo';
 });
@@ -21,29 +18,41 @@ ErikFig\Framework\Users\Register::handle($twig, $router);
 // faço o router encontrar a rota que o usuário acessou
 $result = $router->handler();
 
-// se retornar false, dou um erro 404 de página não encontrada
 if (!$result) {
     http_response_code(404);
     echo 'Página não encontrada!';
     die();
 }
 
-// verifico se é uma função anônima
-if ($result instanceof Closure) {
-    // imprimo a página atual
-    echo $result($router->getParams());
+// pego os dados da entidade
+$data = $result->getData();
 
-// se não for uma função anônima e for uma string
-} elseif (is_string($result)) {
-    // eu quebro a string nos dois-pontos, dois::pontos
-    // transformando em array
-    $result = explode('::', $result);
+// rodo os middlewares before
+foreach ($data['before'] as $before) {
+    // rodo o middleware
+    if (!$before($router->getParams())) {
+        // se retornar false eu paro a execução do código
+        die();
+    }
+}
 
-    // instancio o controller
-    $controller = new $result[0]($twig);
-    // guardo o método a ser executado (em um controller ele se chama action)
-    $action = $result[1];
+// rodo a ação principal
+if ($data['action'] instanceof Closure) {
+    echo $data['action']($router->getParams());
+} elseif (is_string($data['action'])) {
+    $data['action'] = explode('::', $data['action']);
 
-    // finalmente executo o método da classe
+    $controller = new $data['action'][0]($twig);
+    $action = $data['action'][1];
+
     echo $controller->$action($router->getParams());
+}
+
+// rodo os middlewares after
+foreach ($data['after'] as $after) {
+    // rodo o middleware
+    if (!$after($router->getParams())) {
+        // se retornar false eu paro a execução do código
+        die();
+    }
 }
